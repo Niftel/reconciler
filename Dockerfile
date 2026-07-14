@@ -1,5 +1,5 @@
 # Build Stage
-FROM golang:1.25-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY . .
 RUN go build -o /praetor-reconciler .
 
 # Run Stage — pure-Go SSH (golang.org/x/crypto/ssh), so no openssh-client needed.
-FROM alpine:3.19
+FROM alpine:3.24
 
 # uid 1000 matches the executor so the shared SSH known_hosts volume (host-key
 # trust-on-first-use) is readable/writable by both.
