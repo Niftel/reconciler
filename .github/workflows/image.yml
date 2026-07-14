@@ -10,6 +10,12 @@ on:
     tags: ['v*']
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release version to rebuild into GHCR (without v prefix)
+        required: true
+        type: string
 
 concurrency:
   group: image-${{ github.ref }}
@@ -24,6 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/v{0}', inputs.version) || github.ref }}
 
       - uses: docker/setup-buildx-action@v3
 
@@ -42,6 +50,7 @@ jobs:
           images: ghcr.io/niftel/praetor-reconciler
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
             type=sha,prefix=sha-,format=short
             type=semver,pattern={{version}}
 
