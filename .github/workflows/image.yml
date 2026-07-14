@@ -22,8 +22,11 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  attestations: write
   contents: read
+  id-token: write
   packages: write
+  security-events: write
 
 jobs:
   image:
@@ -51,15 +54,44 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=raw,value=scan-${{ github.sha }},enable=${{ github.event_name == 'pull_request' }}
             type=sha,prefix=sha-,format=short
             type=semver,pattern={{version}}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
+          load: ${{ github.event_name == 'pull_request' }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          sbom: ${{ github.event_name != 'pull_request' }}
+          provenance: ${{ github.event_name != 'pull_request' && 'mode=max' || 'false' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Scan image
+        id: scan
+        uses: anchore/scan-action@v7
+        with:
+          image: ${{ github.event_name == 'pull_request' && format('ghcr.io/niftel/praetor-reconciler:scan-{0}', github.sha) || format('ghcr.io/niftel/praetor-reconciler@{0}', steps.build.outputs.digest) }}
+          fail-build: false
+          severity-cutoff: high
+          cache-db: true
+
+      - name: Upload vulnerability report
+        if: always() && steps.scan.outputs.sarif != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
+          category: container-reconciler
+
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest@v4
+        with:
+          subject-name: ghcr.io/niftel/praetor-reconciler
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
