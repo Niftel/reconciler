@@ -2,7 +2,7 @@ name: Image
 
 # Build the service image and push it to GHCR on merge to main (and on version
 # tags). PRs build the image but do NOT push, so a broken Dockerfile is caught
-# before merge. The Helm chart pulls ghcr.io/praetordev/praetor-reconciler (see the
+# before merge. The Helm chart pulls ghcr.io/niftel/praetor-reconciler (see the
 # chart's image.registry).
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/praetordev/praetor-reconciler
+          images: ghcr.io/niftel/praetor-reconciler
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=sha-,format=short
