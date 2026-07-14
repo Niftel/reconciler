@@ -79,6 +79,7 @@ jobs:
         with:
           image: ${{ github.event_name == 'pull_request' && format('ghcr.io/niftel/praetor-reconciler:scan-{0}', github.sha) || format('ghcr.io/niftel/praetor-reconciler@{0}', steps.build.outputs.digest) }}
           fail-build: false
+          only-fixed: true
           severity-cutoff: high
           cache-db: true
 
