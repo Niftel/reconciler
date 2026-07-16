@@ -83,7 +83,7 @@ jobs:
         env:
           IMAGE: ghcr.io/niftel/praetor-reconciler@${{ steps.build.outputs.digest }}
         run: |
-          platforms="$(docker buildx imagetools inspect "$IMAGE" --format '{{range .Manifest.Manifests}}{{printf "%s/%s\\n" .Platform.OS .Platform.Architecture}}{{end}}')"
+          platforms="$(docker buildx imagetools inspect "$IMAGE" --format '{{range .Manifest.Manifests}}{{printf "%s/%s\n" .Platform.OS .Platform.Architecture}}{{end}}')"
           grep -qx 'linux/amd64' <<<"$platforms"
           grep -qx 'linux/arm64' <<<"$platforms"
 
