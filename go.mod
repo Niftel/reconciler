@@ -12,7 +12,7 @@ require (
 	github.com/praetordev/env v0.1.0
 	github.com/praetordev/events v0.1.0
 	github.com/praetordev/hostconn v0.1.0
-	github.com/praetordev/metrics v0.1.0
+	github.com/praetordev/metrics v0.1.1
 	github.com/praetordev/plog v0.1.0
 	github.com/prometheus/client_golang v1.23.2
 	golang.org/x/crypto v0.54.0

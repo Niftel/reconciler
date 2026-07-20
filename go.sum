@@ -43,8 +43,8 @@ github.com/praetordev/events v0.1.0 h1:n4bZW4klXLN6XSFuX7qIaTPDau4/axFo2Zk71G/nG
 github.com/praetordev/events v0.1.0/go.mod h1:gF7ZeKJTxupPc1yPlo8HBhRdzZrRWkBbTEovgba498Y=
 github.com/praetordev/hostconn v0.1.0 h1:rcpsufJkZwIGvAc82RuGKCgi5ztJIB5P+LkYUHxXXw0=
 github.com/praetordev/hostconn v0.1.0/go.mod h1:rQZtLSBbfzJrg4WG+1embYn9PUDFXE154db2fJRbVqU=
-github.com/praetordev/metrics v0.1.0 h1:P6uRYZOVIsIw6XKjr+cg/mZ7tV9GuOOfcAeL/zJYtlw=
-github.com/praetordev/metrics v0.1.0/go.mod h1:LWAc9ODqqUtnFJpTwmXFkmP47OlyyhYM6WA3ff9dKws=
+github.com/praetordev/metrics v0.1.1 h1:ewzE8bkGN23tqBN6yBRhxdPTEyGfZBRzShjpf1NLMH0=
+github.com/praetordev/metrics v0.1.1/go.mod h1:P7KurBxnPVuDwzk9uD9vaoKvnpZoZE/DMagRQ2GRsxQ=
 github.com/praetordev/plog v0.1.0 h1:SDqOJK8hz86xnzCQ5Tq7TGujE1WeWEnxEq3xqMp+sEc=
 github.com/praetordev/plog v0.1.0/go.mod h1:XNK4wMTvkJIcJ+RtBuNkF538yr2cKowo84Cq1w+WF/8=
 github.com/prometheus/client_golang v1.23.2 h1:Je96obch5RDVy3FDMndoUsjAhG5Edi49h0RJWRi/o0o=
