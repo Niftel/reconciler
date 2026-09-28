@@ -1,5 +1,5 @@
 # Build Stage — compile on the native CI runner instead of emulating the target.
-FROM --platform=$BUILDPLATFORM golang:1.26-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.27-alpine AS builder
 
 ARG TARGETOS
 ARG TARGETARCH
@@ -14,7 +14,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /praetor-reconciler .
 
 # Run Stage — pure-Go SSH (golang.org/x/crypto/ssh), so no openssh-client needed.
-FROM alpine:3.23@sha256:fd791d74b68913cbb027c6546007b3f0d3bc45125f797758156952bc2d6daf40
+FROM alpine:3.24@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
 
 # uid 1000 matches the executor so the shared SSH known_hosts volume (host-key
 # trust-on-first-use) is readable/writable by both.
